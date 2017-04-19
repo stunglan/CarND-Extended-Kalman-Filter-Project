@@ -71,6 +71,9 @@ int main(int argc, char* argv[]) {
   
   check_files(in_file_, in_file_name_, out_file_, out_file_name_);
   
+  cout << "input file : " << in_file_name_ << endl;
+  cout << "output file : " << out_file_name_ << endl;
+  
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
   
