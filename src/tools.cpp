@@ -22,6 +22,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   rmse << 0,0,0,0;
   
   // TODO: YOUR CODE HERE
+  // using the code from the quizzes
   
   // check the validity of the following inputs:
   //  * the estimation vector size should not be zero
@@ -60,6 +61,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
    TODO:
    * Calculate a Jacobian here.
    */
+  // using the code from the quizzes
   
   MatrixXd Hj(3,4);
   //recover state parameters

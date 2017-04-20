@@ -40,7 +40,7 @@ void KalmanFilter::Update(const VectorXd &z) { // Laser
   TODO:
     * update the state by using Kalman Filter equations
   */
-  
+  // using the code from the quizzes
   VectorXd z_pred = H_ * x_;
   VectorXd y = z - z_pred;
   MatrixXd Ht = H_.transpose();
@@ -62,6 +62,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) { // Radar
   TODO:
     * update the state by using Extended Kalman Filter equations
   */
+  // using the formula from the formula document in the lectures
   
   double rho = sqrt( pow(x_[0],2) + pow(x_[1],2) );
   double phi;

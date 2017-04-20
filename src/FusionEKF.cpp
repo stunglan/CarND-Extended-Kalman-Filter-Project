@@ -48,8 +48,8 @@ FusionEKF::FusionEKF() {
               0, 1, 0, 0;
   
   // need to allocate/initialise  Kalman filter variables in ekf
-  
   // allocate memory
+  // using the Init method in the kalman filter class
   
   Eigen::VectorXd x_ = VectorXd(4);; // state vector
   Eigen::MatrixXd P_ = MatrixXd(4, 4);; // state covariance matrix
@@ -91,20 +91,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
        Convert radar from polar to cartesian coordinates and initialize state.
        */
+      // using the cosine and sine of position and speed
       float rho = measurement_pack.raw_measurements_[0];
       float phi = measurement_pack.raw_measurements_[1];
       float rhodot = measurement_pack.raw_measurements_[2];
       
       ekf_.x_ << rho * cos(phi), rho * sin(phi), rhodot * cos(phi), rhodot * sin(phi);
       
-
-      
-      
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
        Initialize state.
        */
+      // using the position
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1],0,0;
       
     }
@@ -129,15 +128,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0; //dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
   
-  ekf_.F_ <<   1, 0, dt, 0,
-  0, 1, 0, dt,
-  0, 0, 1, 0,
-  0, 0, 0, 1;
   
-  //2. Set the process covariance matrix Q
+  // specified in the project description
   float noise_ax = 9.0;
   float noise_ay = 9.0;
   
+  //  using the lectures and formula document
+  ekf_.F_ <<   1, 0, dt, 0,
+              0, 1, 0, dt,
+              0, 0, 1, 0,
+              0, 0, 0, 1;
+  
+  //2. Set the process covariance matrix Q - code from quiz
+
   float dt_2 = dt*dt;
   float dt_3 = dt_2*dt;
   float dt_4 = dt_3*dt;
@@ -168,6 +171,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    * Update the state and covariance matrices.
    */
   
+  // using the appropriate update mathon dependent on the sensor
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
     Hj_ = tools.CalculateJacobian(ekf_.x_);
