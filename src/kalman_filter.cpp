@@ -27,9 +27,11 @@ void KalmanFilter::Predict() {
   TODO:
     * predict the state
   */
+  
   x_ = F_ * x_;
   MatrixXd Ft = F_.transpose();
   P_ = F_ * P_ * Ft + Q_;
+
   
 }
 
@@ -60,6 +62,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) { // Radar
   TODO:
     * update the state by using Extended Kalman Filter equations
   */
+  
   double rho = sqrt( pow(x_[0],2) + pow(x_[1],2) );
   double phi;
   double rhodot;
@@ -71,10 +74,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) { // Radar
   phi = atan(x_[1] / x_[0]);
   float PI2 = 4*acos(0.0);
   phi = fmod(phi, PI2); // ensure -2*pi to 2*pi
-
-  
   rhodot = ((x_[0] * x_[2] + x_[1] * x_[3]) / rho);
-
     
 //  VectorXd z_pred = H_ * x_;
   MatrixXd z_pred(3, 1);
@@ -91,4 +91,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) { // Radar
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
+
 }
